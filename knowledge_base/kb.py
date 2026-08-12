@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import json
 import logging
+import os
 import re
 from pathlib import Path
 
@@ -21,7 +22,8 @@ INDEX_DIR = PROJECT_ROOT / "knowledge_base" / "index"
 CHUNKS_FILE = INDEX_DIR / "chunks.json"
 INDEX_FILE = INDEX_DIR / "faiss.bin"
 
-BGE_MODEL_DIR = Path("E:/wu/xidian/job/java/agent/models/bge-m3")
+# bge-m3 模型路径：优先环境变量 BGE_MODEL_DIR，回退到项目内 models/bge-m3
+BGE_MODEL_DIR = Path(os.getenv("BGE_MODEL_DIR", PROJECT_ROOT / "models" / "bge-m3"))
 CHUNK_SIZE = 500
 CHUNK_OVERLAP = 80
 
@@ -139,10 +141,18 @@ _embedder = None
 
 
 def get_embedder():
-    """Lazily load the bge-m3 model (kept in memory after first use)."""
+    """Lazily load the bge-m3 model (kept in memory after first use).
+
+    Returns None if the model directory is missing, so callers can degrade
+    gracefully (skip RAG) instead of crashing on a missing local model.
+    """
     global _embedder
     if _embedder is not None:
         return _embedder
+    if not BGE_MODEL_DIR.exists():
+        logger.warning("bge-m3 模型不存在（%s），RAG 将降级为纯 LLM 生成", BGE_MODEL_DIR)
+        _embedder = False
+        return None
     from FlagEmbedding import BGEM3FlagModel
 
     logger.info("loading bge-m3 from %s ...", BGE_MODEL_DIR)
@@ -154,6 +164,8 @@ def get_embedder():
 def embed_texts(texts: list[str], batch: int = 32) -> list[list[float]]:
     """Embed a list of texts with bge-m3, returning dense vectors."""
     model = get_embedder()
+    if not model:  # None or False (unavailable)
+        raise RuntimeError("bge-m3 模型不可用，无法向量化")
     vectors: list[list[float]] = []
     for i in range(0, len(texts), batch):
         chunk = texts[i:i + batch]
@@ -201,6 +213,9 @@ def search(query: str, top_k: int = 3) -> list[dict]:
     index = faiss.read_index(str(INDEX_FILE))
     chunks = json.loads(CHUNKS_FILE.read_text(encoding="utf-8"))
 
+    if not get_embedder():
+        logger.warning("bge-m3 模型不可用，跳过检索")
+        return []
     query_vec = np.array(embed_texts([query]), dtype="float32")
     scores, idxs = index.search(query_vec, min(top_k, len(chunks)))
 

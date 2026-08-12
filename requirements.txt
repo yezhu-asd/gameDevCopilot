@@ -1,0 +1,18 @@
+# GameDevCopilot 依赖
+# 核心 Agent / LLM
+langchain-openai>=0.3.0
+langgraph>=1.0.0
+python-dotenv>=1.0.0
+
+# RAG（bge-m3 + FAISS）
+FlagEmbedding>=1.2.0
+faiss-cpu>=1.8.0
+numpy>=1.24.0
+
+# Web Demo
+fastapi>=0.110.0
+uvicorn>=0.29.0
+python-multipart>=0.0.9
+
+# 测试
+pytest>=8.0.0

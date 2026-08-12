@@ -151,14 +151,3 @@ game-design/
 
 **分层语义：** `references/` 单源提炼 → `concepts/` 多源综合 → `topics/` 领域导航。`_index.md` 是派生缓存，手动维护（按 frontmatter 重建）。原文档案已删除（见 config.md 合规化说明），各文章标注外部来源链接供溯源。
 
----
-
-## 许可
-
-本仓库的**综合编译层**（`wiki/`、`output/`、README、config 等由本库作者撰写的内容）采用 [MIT License](LICENSE) 授权。
-
-> ⚠️ **授权范围说明**：MIT 仅覆盖本库的中文综合编译内容。**原著不在授权范围内**——17 本教材为商业出版物（版权归各自出版社/作者），Game AI Pro 系列版权归 CRC Press，本库仅做结构化提炼并标注外部链接供查阅，不收录全文。如需引用原著内容，请直接获取原著授权。
-
-## 致谢
-
-本知识库由 [llm-wiki](https://github.com/nvk/llm-wiki) 框架驱动编译，感谢所有原始资料的作者与开源社区。
