@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameDevCopilot — 一句话生成游戏原型</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <header class="hero">
+        <h1>🎮 GameDevCopilot</h1>
+        <p class="subtitle">输入一句话，Agent 自主生成一个可运行的 Godot 游戏原型</p>
+    </header>
+
+    <main>
+        <section class="input-card">
+            <textarea id="spec-input" rows="2"
+                placeholder="例：做一个平台跳跃游戏，玩家跳跃躲避尖刺，收集金币，到达旗帜通关">做一个塔防游戏：敌人沿路走，点击空地放塔自动攻击，敌人到终点扣命</textarea>
+            <div class="actions">
+                <button id="generate-btn" class="btn-primary">生成游戏</button>
+                <button id="stop-btn" class="btn-ghost" disabled>停止</button>
+                <span id="status-hint" class="hint"></span>
+            </div>
+        </section>
+
+        <section id="progress-section" class="progress-section hidden">
+            <h2>生成过程</h2>
+            <ol id="timeline" class="timeline"></ol>
+        </section>
+
+        <section id="result-section" class="result-section hidden">
+            <div class="result-header">
+                <h2>生成的游戏</h2>
+                <span id="result-dir" class="dir-label"></span>
+            </div>
+            <div id="result-body" class="result-body">
+                <ul id="file-tree" class="file-tree"></ul>
+                <pre id="file-content" class="file-content"></pre>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>GameDevCopilot · LangGraph 工作流 + RAG 知识库 + Godot 无头验证</p>
+    </footer>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

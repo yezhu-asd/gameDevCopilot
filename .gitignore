@@ -1,0 +1,26 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Env / secrets
+.env
+
+# Godot engine binary (download yourself)
+tools/
+
+# Godot project metadata
+.godot/
+*.import
+
+# Generated games
+outputs/
+
+# RAG vector index (rebuild via knowledge_base/scripts)
+knowledge_base/index/
+
+# AutoDL package artifacts
+autodl_embed/results/
+autodl_embed/models/
+autodl_embed/corpus/   # duplicate of rag/game-design-wiki; regenerated on demand
+log.txt

@@ -1,0 +1,7 @@
+# AutoDL 向量化脚本依赖
+# AutoDL 的 PyTorch 镜像通常已自带 numpy / torch / transformers，
+# 缺少的只有 FlagEmbedding。建议直接安装：
+#   pip install FlagEmbedding
+# 如需最小依赖集，可执行：
+#   pip install -r requirements.txt
+FlagEmbedding
